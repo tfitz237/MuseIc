@@ -40,10 +40,13 @@ Vue.component('music-box', {
     <i class="material-icons" v-on:click="showPlaylist = !showPlaylist">queue_music</i>
  </div>
  <input type="file" @change="fileChange" class="fileUpload" id="fileUploadInput"/>
- <button v-on:click="upload" class="uploadButton">
+ <button v-on:click="upload" class="uploadButton" v-show="!currentlyUploading">
      <i class="material-icons">file_upload</i>
      <i class="material-icons">play_arrow</i>
  </button>
+ <span class="uploadButton moveUp" v-show="currentlyUploading">
+    uploading...
+</span>
 
  </div>
 `,
@@ -53,6 +56,7 @@ Vue.component('music-box', {
         currentSong: -1,
         playStatus: false,
         showPlaylist: false,
+        currentlyUploading: false,
         uploadFile: "",
         links: []
     }),
@@ -102,9 +106,13 @@ Vue.component('music-box', {
         fileChange: function(e) {
             this.uploadFile = e.target.files[0] || e.dataTransfer.files[0];
             var ref = fire.files.child('mp3/'+this.uploadFile.name);
+            this.currentlyUploading = true;
             ref.put(this.uploadFile).then((snapshot) => {
+                this.currentlyUploading = false;
                 clean(snapshot.metadata);
-                music[(music["currentChannel"] == 0) ? 1 : 0].src = snapshot.downloadURL;
+                let channel = (music["currentChannel"] == 0) ? 1 : 0;
+                music[channel].src = snapshot.downloadURL;
+                music["currentChannel"] = channel;
                 this.info = this.uploadFile.name;
                 this.playStatusIcon = "pause_circle_outline";
                 fire.db.ref('music-metadata').push(snapshot.metadata);
