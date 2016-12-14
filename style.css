@@ -1,0 +1,51 @@
+.box {
+    width: 200px;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    font-family: sans-serif;
+    font-size: 12px;
+    background: #444;
+    color: #AAA;
+    padding: 0 10px 10px 10px;
+    border: 1px solid grey;
+}
+.box a {
+    color: #DDD;
+}
+.box .info {
+    text-align: center;
+    padding: 5px 0;
+}
+.box .playlist {
+    margin: 0;
+    border-bottom: 1px solid grey;
+    padding: 5px;
+}
+.box .playlist li {
+    list-style-type: none;
+}
+.box .controls {
+    text-align: center;
+    display: inline;
+    margin-right: 15px;
+}
+.box .controls > * {
+    cursor:pointer;
+}
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .5s
+}
+.fade-enter, .fade-leave-active {
+    opacity: 0
+}
+.fileUpload {
+    display: none;
+}
+.uploadButton {
+    padding: 2px;
+    background: #666;
+    color: #DDD;
+    border: 1px solid grey;
+    cursor:pointer;
+}
